@@ -1,5 +1,5 @@
 # github-traffic-capture
-This repository contains a CDK project that deploys an AWS infrastructure capable of retrieving and storing historic traffic data about the GitHub repositories to which you have push access to.
+This repository contains a CDK project that deploys an architecture capable of retrieving and storing daily traffic data about the GitHub repositories to which you have push access to.
 
 ## In this page
 - [About the traffic API](#about-the-traffic-api)
@@ -15,7 +15,8 @@ The [GitHub repository traffic API](https://docs.github.com/en/rest/metrics/traf
 - Top referral sources
 - Page views
 
-This CDK project collects repository clones and page views on a daily basis, to allow for historic data representation and gather trend insights about your content. 
+This CDK project collects repository clones and page views on a daily basis, to allow the representation of historical data and the collection of trends on its content.
+You will need a GitHub access token to use the features of this project. To generate one, visit [https://github.com/settings/tokens](https://github.com/settings/tokens).
 
 ## Architecture and considerations
 
@@ -26,7 +27,7 @@ The following diagram shows the architecture that will be deployed. Consideratio
 ### Considerations
 
 - To track the traffic of your repositories, modify the contents of the `REPOS` array defined in the Lambda function `getRepositoriesTraffic`. You must have push access to the repositories you want to track. If you get an API rate access error, take a look at [the GitHub REST API documentation](https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting)
-- The EventBridge rule `RuleGetRepoTraffic` is triggered every day at 9 AM and retrieve **views** and **clones** traffic for the repositories that you specify
+- The EventBridge rule `RuleGetRepoTraffic` is triggered every day at 9 AM and executes the Lambda function that retrieves **views** and **clones** for the repositories that you specify
 - Repo traffic data is stored in the `RepoTraffic` DynamoDB table. This table has a partition key `repo-name` and a sort key `timestamp`
 - Your GitHub access token is securely stored as a Secrets Manager Secret, and you provide it as a parameter when deploying the stack
 
@@ -86,7 +87,7 @@ To delete all the resources created by CDK:
 1. Navigate to the **CloudFormation** section in the AWS console.
 2. Select the stack named **GitHubTrafficCaptureStack** and click on **Delete**.
 
-Alternatively, you can execute the following command:
+Alternatively, you can execute the following command from the `cdk-app` directory:
 
 ```bash
 cdk destroy
