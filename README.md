@@ -27,7 +27,7 @@ The following diagram shows the architecture that will be deployed. Consideratio
 ### Considerations
 
 - To track the traffic of your repositories, modify the contents of the `REPOS` array defined in the Lambda function `getRepositoriesTraffic`. You must have push access to the repositories you want to track. If you get an API rate access error, take a look at [the GitHub REST API documentation](https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting)
-- The EventBridge rule `RuleGetRepoTraffic` is triggered every day at 9 AM and executes the Lambda function that retrieves **views** and **clones** for the repositories that you specify
+- The EventBridge rule `RuleGetRepoTraffic` is triggered every day at 9 AM UTC and executes the Lambda function that retrieves **views** and **clones** for the repositories that you specify
 - Repo traffic data is stored in the `RepoTraffic` DynamoDB table. This table has a partition key `repo-name` and a sort key `timestamp`
 - Your GitHub access token is securely stored as a Secrets Manager Secret, and you provide it as a parameter when deploying the stack
 
